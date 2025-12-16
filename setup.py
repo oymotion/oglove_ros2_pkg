@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'glove_ros2'
+package_name = 'oglove_ros2'
 
 setup(
     name=package_name,
@@ -15,14 +15,13 @@ setup(
     zip_safe=True,
     maintainer='He Bin',
     maintainer_email='hebin7611@hotmail.com',
-    description='Package for glove',
+    description='Package for ble and usb glove',
     license='MIT',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'left_usb_glove_node = scripts.left_usb_glove_ros2:main',
-            'right_usb_glove_node = scripts.right_usb_glove_ros2:main',
-            'ble_glove_node = scripts.ble_glove_ros2:main'
+            'usb_glove_node = scripts.usb_glove_ros2:main',
+            'ble_glove_node = scripts.ble_glove_ros2:main',
         ],
     },
 )

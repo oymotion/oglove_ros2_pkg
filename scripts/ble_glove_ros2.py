@@ -43,7 +43,6 @@ class PosInputBleGlove:
         return max(smallest, min(n, largest))
 
     def interpolate(self, n, from_min, from_max, to_min, to_max):
-        # 将n从from_min到from_max的范围映射到to_min到to_max的范围
         return (n - from_min) / (from_max - from_min) * (to_max - to_min) + to_min
 
     async def start(self) -> bool:
@@ -111,23 +110,20 @@ class GlovePublisher(Node):
         
         self.loop = asyncio.new_event_loop()
         self.ble_thread = threading.Thread(
-            target=self._run_ble_thread,  # 同步线程函数（调用异步主循环）
+            target=self._run_ble_thread,
             daemon=True
         )
         self.ble_thread.start()
         
         self.queue_timer = self.create_timer(0.005, self._sync_data_from_queue)
 
-    # 1. 同步线程函数：仅负责启动异步主循环
     def _run_ble_thread(self):
         asyncio.set_event_loop(self.loop)
-        # 执行异步主循环（run_until_complete 会阻塞到异步函数结束）
         self.loop.run_until_complete(self._ble_async_main_loop())
 
-    # 2. 异步主循环函数（async def 定义，可使用 await）
     async def _ble_async_main_loop(self):
         try:
-            await self.bg.start()  # 合法：异步函数内可使用 await
+            await self.bg.start()
             dev_name = self.bg.get_device_name()
             self.get_logger().info("Bluetooth glove initialized successfully")
 
@@ -136,7 +132,7 @@ class GlovePublisher(Node):
             self.publish_timer = self.create_timer(0.01, self._publish_callback)
             
             while True:
-                raw_data = await self.bg.get_position()  # 合法：异步函数内可使用 await
+                raw_data = await self.bg.get_position()
                 if raw_data is not None:
                     valid_data = self._validate_finger_data(raw_data)
                     if valid_data:

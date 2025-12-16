@@ -1,6 +1,6 @@
 # Package Glove
 
-Nodes for USB Glove and BLE Glove.
+Nodes for USB and BLE Glove.
 
 ## 1. Prepare
 
@@ -15,6 +15,9 @@ touch ./venv/COLCON_IGNORE
 
 # Activate
 source ./venv/bin/activate
+
+# Install Module
+pip install bleak==0.22.3
 
 ```
 
@@ -38,10 +41,18 @@ Listens to topic 'glove_finger_data'.
 
 ### 3.1 Topics
 
+#### 3.1.1 USB glove
+
 | Topic                                          | Description                         |
 | ---------------------------------------------- | ----------------------------------- |
 | "/left_usb_glove_publisher/glove_finger_data"  | Data collected from the left glove  |
 | "/right_usb_glove_publisher/glove_finger_data" | Data collected from the right glove |
+
+#### 3.1.2 BLE glove
+
+| Topic                           | Description                                           |
+| ------------------------------- | ----------------------------------------------------- |
+| "/glove_xxxx/glove_finger_data" | Data collected from the BLE glove,xxxx is ble address |
 
 ### 3.2 Run
 
@@ -51,79 +62,21 @@ source /path/to/workspace/install/setup.bash
 
 ```
 
-#### 3.2.1 Use single glove
-
-
 Insert glove then add permission to users.Run following command every time you plug in your glove
 
 ```BASH
 sudo chmod o+rw /dev/ttyACM0  # Modify ttyACM0 to your actual device name
+# if double gloves
+sudo chmod o+rw /dev/ttyACM1  # Modify ttyACM1 to your actual device name
 ```
 
 Run usb glove node according to your glove side
 
 ```BASH
-ros2 run glove_ros2 left_usb_glove_node    # If left glove
-# or
-ros2 run glove_ros2 right_usb_glove_node   # If right glove
+ros2 oglove_ros2 usb_glove_ros2    # If usb glovwe
+ros2 oglove_ros2 ble_glove_ros2    # If ble glove
 ```
 
-#### 3.2.2 Use a pair of gloves
+#### 3.2.3 Calibration
 
-Insert one glove then add permission to users.Run following command every time you plug in your glove
-
-```BASH
-sudo chmod o+rw /dev/ttyACM0  # Modify ttyACM0 to your actual device name
-```
-
-Run one glove program first if ACM0 is your left glove, else run right one program
-
-```BASH
-ros2 run glove_ros2 left_usb_glove_node    # If left glove
-# or
-ros2 run glove_ros2 right_usb_glove_node   # If right glove
-```
-
-Insert the other glove
-
-```BASH
-sudo chmod o+rw /dev/ttyACM1  # Modify ttyACM1 to your actual device name
-```
-
-Modify code in left_usb_glove_node.py or right_usb_glove_node.py
-
-```bash
-port=find_comport() or "/dev/ttyACM1"   # Modift param when init port
-```
-
-run the other glove program
-
-```BASH
-ros2 run glove_ros2 right_usb_glove_node   # If second glove is rightt
-# or
-ros2 run glove_ros2 left_usb_glove_node    # If second glove is left
-```
-## 4. Node ble_glove_node
-
-Listens to topic 'glove_finger_data'.
-
-### 4.1 Topics
-
-| Topic                           | Description                                           |
-| ------------------------------- | ----------------------------------------------------- |
-| "/glove_xxxx/glove_finger_data" | Data collected from the BLE glove,xxxx is ble address |
-
-### 4.2 Run
-
-Prepare bleak module
-```BASH
-pip install bleak==0.22.3
-```
-
-```BASH
-# Prepare package
-source /path/to/workspace/install/setup.bash
-
-# Run this command for each glove
-ros2 run glove_ros2 ble_glove_node
-```
+After the program starts, keep making a fist and spreading movements according to the tips as quickly as possible
