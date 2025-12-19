@@ -73,8 +73,8 @@ sudo chmod o+rw /dev/ttyACM1  # Modify ttyACM1 to your actual device name
 Run usb glove node according to your glove side
 
 ```BASH
-ros2 oglove_ros2 usb_glove_ros2    # If usb glovwe
-ros2 oglove_ros2 ble_glove_ros2    # If ble glove
+ros2 oglove_ros2 usb_glove_node    # If usb glovwe
+ros2 oglove_ros2 ble_glove_node    # If ble glove
 ```
 
 #### 3.2.3 Calibration
