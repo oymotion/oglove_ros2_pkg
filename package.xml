@@ -4,7 +4,7 @@
   <name>oglove_ros2</name>
   <version>1.0.0</version>
   <description>ROS2 package for ble and usb glove</description>
-  <maintainer email="hebin7611@hotmail.com">He Bin</maintainer>
+  <maintainer email="faq@oymotion.com">oymotion</maintainer>
   <license>MIT</license>
 
   <depend>rclpy</depend>
